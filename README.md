@@ -1,5 +1,5 @@
 # Introduction
-`google-play-purchases` is a tool for listing your purchases from google's play store (since there's not a great way to do this normally). It reads from a google takeout file and produces a csv.
+`google-play-purchases` is a tool for exporting a list of your purchases from google's play store (since there's not a great way to do this normally). It reads from a google takeout file and produces a csv.
 
 # Steps
 1. visit [google takeout](https://takeout.google.com)
