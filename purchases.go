@@ -51,7 +51,7 @@ func processFile(file *zip.File) {
 	var data history
 	dec.Decode(&data)
 
-	fmt.Println("date, price, item")
+	fmt.Printf("%10s,%8s,%13s, %s\n", "date", "price", "kind", "name")
 
 	for _, purchase := range data {
 		order := purchase.OrderHistory
@@ -61,10 +61,12 @@ func processFile(file *zip.File) {
 			check(err)
 
 			item := ""
+			kind := ""
 			sep := ""
 			for _, lineItem := range order.LineItem {
 				item += sep + lineItem.Doc.Title
-				sep = ", "
+				kind += sep + lineItem.Doc.DocumentType
+				sep = "; "
 			}
 
 			date := order.CreationTime
@@ -73,7 +75,7 @@ func processFile(file *zip.File) {
 				date = order.CreationTime[:dateIndex]
 			}
 
-			fmt.Printf("%s, $%.2f, %s\n", date, price, item)
+			fmt.Printf("%s,%8s,%13s, %s\n", date, fmt.Sprintf("$%.2f", price), kind, item)
 		}
 	}
 }
