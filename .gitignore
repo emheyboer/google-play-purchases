@@ -2,3 +2,4 @@ google-play-purchases
 *.zip
 .DS_Store
 Takeout/
+*.csv

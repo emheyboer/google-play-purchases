@@ -46,12 +46,18 @@ func processFile(file *zip.File) {
 	check(err)
 	defer contents.Close()
 
+	csv, err := os.Create("purchases.csv")
+	check(err)
+	defer csv.Close()
+
 	dec := json.NewDecoder(contents)
 
 	var data history
 	dec.Decode(&data)
 
-	fmt.Printf("%10s,%8s,%13s, %s\n", "date", "price", "kind", "name")
+	line := fmt.Sprintf("%10s,%8s,%13s, %s", "date", "price", "kind", "name")
+	println(line)
+	csv.WriteString(line + "\n")
 
 	for _, purchase := range data {
 		order := purchase.OrderHistory
@@ -75,7 +81,9 @@ func processFile(file *zip.File) {
 				date = order.CreationTime[:dateIndex]
 			}
 
-			fmt.Printf("%s,%8s,%13s, %s\n", date, fmt.Sprintf("$%.2f", price), kind, item)
+			line = fmt.Sprintf("%s,%8s,%13s, %s", date, fmt.Sprintf("$%.2f", price), kind, item)
+			println(line)
+			csv.WriteString(line + "\n")
 		}
 	}
 }
